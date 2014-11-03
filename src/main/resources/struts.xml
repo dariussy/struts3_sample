@@ -9,10 +9,10 @@
  	
  	<package name="secure" extends="struts-default">
  		<interceptors>
- 			<interceptor name="LoginInterceptor" class="fr.treeptik.interceptor.LoginInterceptor"/>
+ 			<interceptor name="loginInterceptor" class="fr.treeptik.interceptor.LoginInterceptor"/>
  			
  			<interceptor-stack name="secureStack">
- 				<interceptor-ref name="LoginInterceptor"/>
+ 				<interceptor-ref name="loginInterceptor"/>
  				<interceptor-ref name="defaultStack"/>
  			</interceptor-stack>
  			

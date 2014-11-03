@@ -40,43 +40,30 @@ Début de projet avec Struts et spring
 → Emplacement fichier struts.xml (configuration) sur emplacement par défaut 
 
 ##Configuration Struts : src/main/resources/struts.xml : 
+
 ```
-<struts>
 
-<!-- 	Utilisation de constantes struts :
-	configuration dev activé-->
- 	<constant name="struts.devMode" value="true" />
+	<struts>
 
-	<!-- configuration de l internationalisation-->
- 	<constant name="struts.custom.i18n.resources" value="i18n/messages" />
-        
-<!--         <package name="default" namespace="/pages" extends="struts-default"> -->
-            
-<!--             employeeAction is a spring bean -->
-<!--             <action name="addEmployee" class="employeeAction" method="addEmployee" > -->
-<!--                 <result name="success">/pages/success.jsp?action=addemployee</result> -->
-<!--                 <result name="input">/pages/AddEmployee.jsp</result> -->
-<!--             </action> -->
-<!--             <action name="listEmployees" class="employeeAction" method="listEmployees"> -->
-<!--                 <result name="success">/pages/AddEmployee.jsp</result> -->
-<!--             </action> -->
-            
-<!--             Handles localisation changes -->
-<!--             <action name="locale" class="s2sh.action.LocaleAction"> -->
-<!--                 <result name="redirect">${url}</result> -->
-<!--             </action> -->
-            
-<!--         </package> -->
+		<!-- Utilisation de constantes struts : configuration dev activé -->
+	 	<constant name="struts.devMode" value="true" />
 	
-</struts>
+		<!-- configuration de l internationalisation -->
+	 	<constant name="struts.custom.i18n.resources" value="i18n/messages" />
+
+	</struts>
+
 ```
+
 ##Configuration par annotations des controlleur Struts : 
+
 ```
-@Component(value = "employeeAction")
-// l'objet est créé à chaque appel → liée struts attributs avec données membres
-@Scope("prototype")
-@Namespace("/employee")
-public class EmployeeAction extends ActionSupport implements
+
+	@Component(value = "employeeAction")
+	// l'objet est créé à chaque appel → liée struts attributs avec données membres
+	@Scope("prototype")
+	@Namespace("/employee")
+	public class EmployeeAction extends ActionSupport implements
 		ModelDriven<Employee> {
 
 	private static final long serialVersionUID = 1L;
@@ -101,6 +88,7 @@ public class EmployeeAction extends ActionSupport implements
 		}
 
 	}
+	
 	//	Configuration des urls
 	@Action(value = "addAction" ,results = {
 			@Result(name = "success", type = "redirectAction", location = "listAction.action"),
@@ -116,34 +104,41 @@ public class EmployeeAction extends ActionSupport implements
 	}
 ```
 #Taglib et JSP
+
 ```
-<%@ taglib prefix="s" uri="/struts-tags" %>
+
+	<%@ taglib prefix="s" uri="/struts-tags" %>
+
 ```
 
 ###list.jsp : 
+
 ```
-	<table border="1px" cellpadding="8px">
-		<tr>
-			<th>ID</th>
-			<th>First name</th>
-			<th>Last name</th>
-			<th>Email</th>
-			<th>Telephone</th>
-		</tr>
-		<s:iterator value="employees">
+		<table border="1px" cellpadding="8px">
 			<tr>
-				<td><s:property value="id" /></td>
-				<td><s:property value="firstname" /></td>
-				<td><s:property value="lastname" /></td>
-				<td><s:property value="email" /></td>
-				<td><s:property value="telephone" /></td>
+				<th>ID</th>
+				<th>First name</th>
+				<th>Last name</th>
+				<th>Email</th>
+				<th>Telephone</th>
 			</tr>
-		</s:iterator>
-	</table>
+			<s:iterator value="employees">
+				<tr>
+					<td><s:property value="id" /></td>
+					<td><s:property value="firstname" /></td>
+					<td><s:property value="lastname" /></td>
+					<td><s:property value="email" /></td>
+					<td><s:property value="telephone" /></td>
+				</tr>
+			</s:iterator>
+		</table>
+	
 ```
+
 ###add.jsp : 
+
 ```
- 	<s:actionerror/>
+ 		 <s:actionerror/>
         
         <s:form action="addAction" >
             <s:textfield name="firstname" label="First Name"  />
@@ -152,43 +147,54 @@ public class EmployeeAction extends ActionSupport implements
             <s:textfield name="telephone" label="Telephone"  />
             <s:submit />
         </s:form>
+   
 ```
 
 Dans les controlleurs si la methode validates est déclaré elle est applé sur tous les fonctions du dit controlleur d'ou l'annotation pour l'esiquiver : 
-```
-	@Action(value = "listAction", results = { @Result(name = "success", location = "/employee/list.jsp") })
-	@SkipValidation
-	public String listEmployees() throws Exception {
-		employees = employeeService.getAll();
 
-		return "success";
-	}
+```
+
+		@Action(value = "listAction", results = { @Result(name = "success", location = "/employee/list.jsp") })
+		@SkipValidation
+		public String listEmployees() throws Exception {
+			employees = employeeService.getAll();
+	
+			return "success";
+		}
+		
 ```
 
 ##Validation Struts :
 
-	###Integration d'un plugin  pour hibernate-validator : https://code.google.com/p/full-hibernate-plugin-for-struts2/wiki/2_Hibernate_Validator_integration
-		avec notamment 
-		```
+###Integration d'un plugin  pour hibernate-validator : https://code.google.com/p/full-hibernate-plugin-for-struts2/wiki/2_Hibernate_Validator_integration avec notamment :
+		
+```
+		
 		<interceptor-ref name="basicStackHibernate" />
-		```
+		
+```
 
-	###Intégration des validations à travers un fichier xml :  https://cwiki.apache.org/confluence/display/WW/Validation
-		→ Possibilité de génerer du code javascripte pour la création du formulaire : mais pensé a ajouté la
-		```
+###Intégration des validations à travers un fichier xml :  https://cwiki.apache.org/confluence/display/WW/Validation
+
+→ Possibilité de génerer du code javascripte pour la création du formulaire : mais pensé a ajouté :
+
+```
+
 		< s:head/>
-		```
-		→ Attention a l'intégration de la dtd pour validation sans connnection ne fonctionne pas : du à :
-			```
-			<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
-        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
-        ```
+```
+→ Attention a l'intégration de la dtd pour validation sans connnection ne fonctionne pas : du à :
+```
+
+	<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"  "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+```
 
 #Intercepteur : 
 
 ##Creation d'un interceptor : 
+
 ```
-public class LoginInterceptor extends AbstractInterceptor {
+
+	public class LoginInterceptor extends AbstractInterceptor {
 
 	private static final long serialVersionUID = 1L;
 
@@ -208,10 +214,13 @@ public class LoginInterceptor extends AbstractInterceptor {
 	}
 
 }
+
 ```
 
-Configuration struts.xml :
+###Configuration struts.xml :
+
 ```
+
 	<package name="secure" extends="struts-default">
  		<interceptors>
  			<interceptor name="LoginInterceptor" class="fr.treeptik.interceptor.LoginInterceptor"/>
