@@ -168,13 +168,21 @@ Dans les controlleurs si la methode validates est déclaré elle est applé sur 
 ##Validation Struts :
 
 	###Integration d'un plugin  pour hibernate-validator : https://code.google.com/p/full-hibernate-plugin-for-struts2/wiki/2_Hibernate_Validator_integration
-		avec notamment ```<interceptor-ref name="basicStackHibernate" />```
+		avec notamment 
+		```
+		<interceptor-ref name="basicStackHibernate" />
+		```
 
 	###Intégration des validations à travers un fichier xml :  https://cwiki.apache.org/confluence/display/WW/Validation
-		→ Possibilité de génerer du code javascripte pour la création du formulaire : mais pensé a ajouté la ```< s:head/>```
+		→ Possibilité de génerer du code javascripte pour la création du formulaire : mais pensé a ajouté la
+		```
+		< s:head/>
+		```
 		→ Attention a l'intégration de la dtd pour validation sans connnection ne fonctionne pas : du à :
-			```<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
-        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">```
+			```
+			<!DOCTYPE validators PUBLIC "-//Apache Struts//XWork Validator 1.0.3//EN"
+        "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+        ```
 
 #Intercepteur : 
 
