@@ -1,0 +1,40 @@
+<!DOCTYPE validators PUBLIC "-//OpenSymphony Group//XWork Validator 1.0.3//EN"
+       "http://struts.apache.org/dtds/xwork-validator-1.0.3.dtd">
+<validators>
+
+	<field name="user.password">
+
+		<field-validator type="requiredstring">
+			<message>password obligatoire</message>
+		</field-validator>
+
+		<field-validator type="stringlength">
+			<param name="maxLength">10</param>
+			<param name="minLength">6</param>
+			<message>Le mot de passe doit contennir entre ${minLength} and et
+				${maxLength} caractères</message>
+		</field-validator>
+
+
+	</field>
+
+	<field name="user.name">
+	
+		<field-validator type="requiredstring">
+			<message>Username obligatoire</message>
+		</field-validator>
+	
+		<field-validator type="stringlength">
+			<param name="maxLength">8</param>
+			<param name="minLength">5</param>
+			<message> Le user name doit contennir entre ${minLength} and et
+				${maxLength} caractères</message>
+		</field-validator>
+	</field>
+
+	<validator type="expression">
+		<param name="expression">user.name != user.password</param>
+		<message>Le username et le mot de passe doivent être différents
+		</message>
+	</validator>
+</validators>

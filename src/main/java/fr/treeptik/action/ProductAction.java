@@ -32,14 +32,14 @@ public class ProductAction extends ActionSupport implements
 	}
 	
 	@Action(value = "addAction", results = {
-			@Result(name = "success", type = "redirectAction", location = "listAction.action"),
+			@Result(name = SUCCESS, type = "redirectAction", location = "listAction.action"),
 			@Result(name = "input", location = "/product/add.jsp") })
 	public String addProduct() throws Exception {
 		System.out.println("ADD PRODUCT");
 
 		System.out.println(product);
 
-		return "success";
+		return SUCCESS;
 	}
 
 	@Action(value = "listAction", results = {

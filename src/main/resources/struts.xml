@@ -6,6 +6,24 @@
 <struts>
  	<constant name="struts.devMode" value="true" />
  	<constant name="struts.custom.i18n.resources" value="i18n/messages" />
+ 	
+ 	<package name="secure" extends="struts-default">
+ 		<interceptors>
+ 			<interceptor name="LoginInterceptor" class="fr.treeptik.interceptor.LoginInterceptor"/>
+ 			
+ 			<interceptor-stack name="secureStack">
+ 				<interceptor-ref name="LoginInterceptor"/>
+ 				<interceptor-ref name="defaultStack"/>
+ 			</interceptor-stack>
+ 			
+ 		</interceptors>
+ 		<default-interceptor-ref name="secureStack"/>
+ 		
+ 		<global-results>
+ 			<result name="login">/login.jsp</result>
+ 		</global-results>
+ 		
+ 	</package>
         
 <!--         <package name="default" namespace="/pages" extends="struts-default"> -->
             

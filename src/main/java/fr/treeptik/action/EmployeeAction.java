@@ -1,11 +1,11 @@
 package fr.treeptik.action;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.apache.struts2.interceptor.validation.SkipValidation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,7 @@ import fr.treeptik.service.EmployeeService;
 @Component(value = "employeeAction")
 @Scope("prototype")
 @Namespace("/employee")
+@ParentPackage("secure")
 public class EmployeeAction extends ActionSupport implements
 		ModelDriven<Employee> {
 
@@ -28,7 +29,7 @@ public class EmployeeAction extends ActionSupport implements
 
 	@Autowired
 	private EmployeeService employeeService;
-	
+
 	private Employee employee = new Employee();
 	private List<Employee> employees = new ArrayList<>();
 
@@ -52,14 +53,13 @@ public class EmployeeAction extends ActionSupport implements
 		System.out.println("ADD EMPLOYEE");
 
 		System.out.println(employee);
-		
+
 		employeeService.add(employee);
 
 		return "success";
 	}
 
-	@Action(value = "listAction", results = {
-			@Result(name = "success", location = "/employee/list.jsp")})
+	@Action(value = "listAction", results = { @Result(name = "success", location = "/employee/list.jsp") })
 	@SkipValidation
 	public String listEmployees() throws Exception {
 		employees = employeeService.getAll();
